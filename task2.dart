@@ -1,153 +1,144 @@
-import 'dart:io';
+// import 'dart:io';
 
-void main() {
-  List<String> studentNames = [];
-  List<List<double>> studentGrades = [];
-  int numberOfStudents = 0;
+// void main() {
+//   List<String> studentNames = [];
+//   List<List<double>> studentGrades = [];
+//   int number_Students = 0;
 
-  while (true) {
-    print("Enter number of students: ");
-    String? input = stdin.readLineSync();
+//   while (true) {
+//     print("Enter number of students: ");
+//     String? input = stdin.readLineSync();
 
-    try {
-      numberOfStudents = int.parse(input!);
+//     try {
+//       number_Students = int.parse(input!);
 
-      if (numberOfStudents > 0) {
-        break;
-      } else {
-        print("Please enter a number greater than 0.");
-      }
-    } catch (e) {
-      print("Invalid input. Please enter a valid number.");
-    }
-  }
+//       if (number_Students > 0) {
+//         break;
+//       } else {
+//         print("Please enter a number greater than 0.");
+//       }
+//     } catch (e) {
+//       print("Invalid input. Please enter a valid number.");
+//     }
+//   }
+//   for (int i = 0; i < number_Students; i++) {
+//     print("\nStudent ${i + 1}");
+//     print("Enter student name: ");
+//     String name = stdin.readLineSync() ?? "Unknown";
 
-  // Collect student data
-  for (int i = 0; i < numberOfStudents; i++) {
-    print("\nStudent ${i + 1}");
+//     int number_Subjects = 0;
 
-    // Student name
-    print("Enter student name: ");
-    String name = stdin.readLineSync() ?? "Unknown";
+//     while (true) {
+//       print("Enter number of subjects: ");
+//       String? subjectInput = stdin.readLineSync();
 
-    // Number of subjects
-    int numberOfSubjects = 0;
+//       try {
+//         number_Subjects = int.parse(subjectInput!);
 
-    while (true) {
-      print("Enter number of subjects: ");
-      String? subjectInput = stdin.readLineSync();
+//         if (number_Subjects > 0) {
+//           break;
+//         } else {
+//           print("Number of subjects must be greater than 0.");
+//         }
+//       } catch (e) {
+//         print("Invalid input. Enter a valid number.");
+//       }
+//     }
 
-      try {
-        numberOfSubjects = int.parse(subjectInput!);
+//     List<double> grades = [];
 
-        if (numberOfSubjects > 0) {
-          break;
-        } else {
-          print("Number of subjects must be greater than 0.");
-        }
-      } catch (e) {
-        print("Invalid input. Enter a valid number.");
-      }
-    }
+//     for (int j = 0; j < number_Subjects; j++) {
+//       while (true) {
+//         print("Enter grade for subject ${j + 1}: ");
+//         String? gradeInput = stdin.readLineSync();
 
-    // Grades list
-    List<double> grades = [];
+//         try {
+//           double grade = double.parse(gradeInput!);
 
-    for (int j = 0; j < numberOfSubjects; j++) {
-      while (true) {
-        print("Enter grade for subject ${j + 1}: ");
-        String? gradeInput = stdin.readLineSync();
+//           if (grade >= 0 && grade <= 100) {
+//             grades.add(grade);
+//             break;
+//           } else {
+//             print("Grade must be between 0 and 100.");
+//           }
+//         } catch (e) {
+//           print("Invalid grade. Please enter a valid number.");
+//         }
+//       }
+//     }
 
-        try {
-          double grade = double.parse(gradeInput!);
+//     studentNames.add(name);
+//     studentGrades.add(grades);
+//   }
 
-          if (grade >= 0 && grade <= 100) {
-            grades.add(grade);
-            break;
-          } else {
-            print("Grade must be between 0 and 100.");
-          }
-        } catch (e) {
-          print("Invalid grade. Please enter a valid number.");
-        }
-      }
-    }
+//   while (true) {
+//     print("1. Show All Results");
+//     print("2. Search Student");
+//     print("3. Exit");
 
-    studentNames.add(name);
-    studentGrades.add(grades);
-  }
+//     print("Choose an option: ");
+//     String? choice = stdin.readLineSync();
 
-  // Infinite Menu Loop
-  while (true) {
-    print("\n===== MENU =====");
-    print("1. Show All Results");
-    print("2. Search Student");
-    print("3. Exit");
+//     switch (choice) {
+//       case '1':
+//         print("\n       ALL RESULTS       ");
 
-    print("Choose an option: ");
-    String? choice = stdin.readLineSync();
+//         for (int i = 0; i < studentNames.length; i++) {
+//           List<double> grades = studentGrades[i];
 
-    switch (choice) {
-      case '1':
-        print("\n===== ALL RESULTS =====");
+//           double average = grades.reduce((a, b) => a + b) / grades.length;
 
-        for (int i = 0; i < studentNames.length; i++) {
-          List<double> grades = studentGrades[i];
+//           String letterGrade = getLetterGrade(average);
 
-          double average = grades.reduce((a, b) => a + b) / grades.length;
+//           print("Name: ${studentNames[i].toUpperCase()}");
+//           print("Average: ${average.toStringAsFixed(2)}");
+//           print("Grade: $letterGrade");
+//         }
+//         break;
 
-          String letterGrade = getLetterGrade(average);
+//       case '2':
+//         print("Enter student name to search: ");
+//         String searchName = stdin.readLineSync()?.toLowerCase() ?? "";
 
-          print("Name: ${studentNames[i].toUpperCase()}");
-          print("Average: ${average.toStringAsFixed(2)}");
-          print("Grade: $letterGrade");
-          print("-------------------");
-        }
-        break;
+//         bool found = false;
 
-      case '2':
-        print("Enter student name to search: ");
-        String searchName = stdin.readLineSync()?.toLowerCase() ?? "";
+//         for (int i = 0; i < studentNames.length; i++) {
+//           if (studentNames[i].toLowerCase() == searchName) {
+//             List<double> grades = studentGrades[i];
 
-        bool found = false;
+//             double average = grades.reduce((a, b) => a + b) / grades.length;
 
-        for (int i = 0; i < studentNames.length; i++) {
-          if (studentNames[i].toLowerCase() == searchName) {
-            List<double> grades = studentGrades[i];
+//             print("Average Grade: ${average.round()}");
 
-            double average = grades.reduce((a, b) => a + b) / grades.length;
+//             found = true;
+//             break;
+//           }
+//         }
 
-            print("Average Grade: ${average.round()}");
+//         if (!found) {
+//           print("Student not found.");
+//         }
 
-            found = true;
-            break;
-          }
-        }
+//         break;
 
-        if (!found) {
-          print("Student not found.");
-        }
+//       case '3':
+//         print("Program terminated.");
+//         return;
 
-        break;
+//       default:
+//         print("Invalid option. Please choose 1, 2, or 3.");
+//     }
+//   }
+// }
 
-      case '3':
-        print("Program terminated.");
-        return;
-
-      default:
-        print("Invalid option. Please choose 1, 2, or 3.");
-    }
-  }
-}
-
-String getLetterGrade(double average) {
-  if (average >= 90) {
-    return 'A';
-  } else if (average >= 80) {
-    return 'B';
-  } else if (average >= 70) {
-    return 'C';
-  } else {
-    return 'F';
-  }
-}
+// String getLetterGrade(double average) {
+//   if (average >= 90) {
+//     return 'A';
+//   } else if (average >= 80) {
+//     return 'B';
+//   } else if (average >= 70) {
+//     return 'C';
+//   } else {
+//     return 'F';
+//   }
+// }
